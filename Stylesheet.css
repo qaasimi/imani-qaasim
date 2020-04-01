@@ -1,33 +1,14 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    background-color: blanchedalmond;}
-    h1 {
-        font-weight: bold;
-        background-color: azure;
-    font-size: 200%; }
-    h2 {
-        font-style: italic;
-        background-color: whitesmoke;
-        font-size: 200%;
-      color: yellowgreen;}
-      h3 {
-          font-weight: lighter;
-          background-color: bisque;
-          font-size: medium;
-          color: azure;
-      }
-    p {
-        background-color: antiquewhite;
-      color: darkgoldenrod;}
-        a {
-            font-style: italic;
-        }
-    .phones {
-        font-style: italic;
-    }
-    .author {
-        font-style: bold;
-    }
+body{
+    font-family: 'Open Sans', sans-serif;
+    margin: auto 30px;
+}
 
-     
+#credits {
+    font-style: italic;
+    font-size: .75em;
+    margin-bottom: 20px;
+}
+
+#header-image {
+    width: 100%
+}
