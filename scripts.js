@@ -1,140 +1,97 @@
-/**
- * Wrap everything in an IIFE (Immediately Invoked Function Expression) to keep
- * our variables constrained to the scope of this function and out of the global scope.
- */
-(function() {
+// Array creation
+var messages = [];
 
-    /**********************************************
-     * Package data and constructor objects
-     **********************************************/
+var messageType = {
+    out: 'out-message',
+    in: 'in-message',
+    unknown: 'unknown-message',
+};
 
-     // Package data array (simulated data source, such as JSON or database recordset)
-     var data = [
-         {
-             name: 'Rainbow Brackets',
-             description: 'This extension provides rainbow colors for round brackets, square brackets, and curly brackets.',
-             author: '2gua',
-             url: 'https://marketplace.visualstudio.com/items?itemName=2gua.rainbow-brackets&ssr=false#overview',
-             downloads: 454231,
-             stars: 64,
-             price: 'Free',
-             selector: 'p1'
-         },
-         {
-            name: 'open in browser',
-            description: 'This allows you to open the current file in your default browser or application.',
-            author: 'TechER',
-            url: 'https://marketplace.visualstudio.com/items?itemName=techer.open-in-browser',
-            downloads: 1650822,
-            stars: 40,
-            price: 'Free',
-            selector: 'p2'
-         },
-         {
-            name: 'GitLens',
-            description: 'Seamlessly navigate and explore Git repositories, gain valuable insights via powerful comparison commands.',
-            author: 'Eric Amodio',
-            url: 'https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens',
-            downloads: 4701325,
-            stars: 350,
-            price: 'Free',
-            selector: 'p3'
-         }
-     ];
+var data = [
+    {
+        type: messageType.out,
+        user: 'Imani',
+        message: 'Hello World!'
+    },
+    {
+        type: messageType.in,
+        user: 'Tytice',
+        message: "What does that mean?"
+    },
+    {
+        type: messageType.out,
+        user: "Imani",
+        message: 'We talked  about this! Tell me you have forgotten?'
+    },
+];
 
-     // Visual Studio Code Package constructor function
-     function Package(data) {
-         this.name = data.name;
-         this.description = data.description;
-         this.author = data.author;
-         this.url = data.url;
-         this.downloads = data.downloads;
-         this.stars = data.stars;
-         this.selector = data.selector; // *** REMEMBER TO ADD THIS IF YOU ADDED IT TO THE DATA OBJECTS ** //
+// Constructor function creation
+function Message(type, user, message) {
+    this.type = type;
+    this.user = user;
+    this.message = message;
+}
 
-         this.getFormattedDownloads = function () {
-             return this.downloads.toLocaleString();
-         };
-         
-         this.getFormattedStars = function () {
-             return this.stars.toLocaleString();
-         };
+function createMessageElement(message) {
+    var messageText = document.createTextNode(
+        message.user + ': ' + message.message
+    );
 
-        }
+    var messageEL = document.createElement('div');
+    messageEL.appendChild(messageText);
+    messageEL.className = message.type;
 
-    /****************************************
-     * Utility functions
-     ****************************************/
+    return messageEL;
+}
 
-     //Return today's date, formatted
-     var getTodaysDate = function() {
-         var today = new Date();
-         return today.toDateString();
-     };
+function addMessageHandler(event) {
+    var user, type;
+    var messageInput = document.getElementById('message-input');
+    var messageContainerEL = document.getElementById('message-container');
 
-     // Return DOM element by id.
-     // We're just wrapping document.getElmentById
-     // in a shorthand function. If this seems confusing,
-     // then jusr replace getEL with document.getElementById
-     // in the writePackageInfo function.
-     var getEL = function (id) {
-         return document.getElementById(id);
-     }
+    switch (event.target.id) {
+        case 'send-button':
+        user = 'Imani';
+        type = messageType.out;
+        break;
+        case 'reply-button':
+        user = 'Tytrice';
+        type = messageType.in;
+        break;
+        default:
+            user = 'unknown';
+            type = messageType.unknown;
+    }
 
-     /**
-      * Write's the package objetc's date to the appropriate
-      * DOM elements utilizing the package selector property.
-      * @param {Package} package Package object
-      * @return {void}
-      */
-     var writePackageInfo = function(package) {
-         //Get refernece to DOM elements
-         var selector = package.selector,
-         nameEL = getEL(selector + '-name'),
-         descEL = getEL(selector + '-description'),
-         authEL = getEL(selector + '-author'),
-         downloadEL = getEL(selector + '-downloads'),
-         starsEL = getEL(selector + '-stars');
+    if (messageInput.value != '') {
+        var message = new Message(type, user, messageInput.value);
+        messages.push(message);
+        var el = createMessageElement(message);
+        messageContainerEL.appendChild(el);
+        messageInput.value = '';
+    }
+}
 
-         // Write package data to DOM elements
-         nameEL.textContent = package.name;
-         descEL.textContent = package.description;
-         authEL.textContent = package.author;
-         downloadEL.tectContent = package.getFormattedDownloads();
-         starsEL.textContent = package.getFormattedStars();
-     }
+function loadSeedData() {
+    for (var i = 0; i < data.length; i++) {
+        var message = new Message(data[i].type, date[i].user, data[i].message);
+        messages.push(message);
+    }
 
-     /*****************************************************
-      * Utilize package data and constructor objects to
-      * construct each package, then add package data to
-      * the page via DOM functions.
-      *****************************************************/
+    var messagesContainerEL = document.getElementById('message-container');
 
-      // Write date
-      dateEL = getEL('date');
-      dateEL.textContent = getTodaysDate();
+    for(var i = 0; i < messages.length; i++) {
+        var message = messages[i];
+        var el = createMessageElement(message)
+        messagesContainerEL.appendChild(el);
+  }
+}
 
-      /**
-       * Write package data one-by-one or with a for loop
-       * Remember to commment out the one you don't use.
-       */
+var init = function() {
 
-       // Write package data one-by-one
-       var rainbowBrackets = new Package(data[0]);
-       writePackageInfo(rainbowBrackets);
+    document.getElementById('send-button').onclick = addMessageHandler;
+    document.getElementById('reply-button').onclick = addMessageHandler;
+    loadSeedData();
+};
 
-       var openInBrowser = new Package(data[1]);
-       writePackageInfo(openInBrowser);
-
-       var gitLens = new Package(data[2]);
-       writePackageInfo(gitLens);
-
-       // continue with eight more packages... OR
-
-       // Write package data using for loop
-       // for (var i = 0; i < data.length; i++) {
-       //   var package =  new Package(data(i))
-       //   writePackageInfo(package);
-       // }
-
-    }());
+init();

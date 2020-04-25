@@ -1,14 +1,18 @@
 body{
-    font-family: 'Open Sans', sans-serif;
-    margin: auto 30px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-#credits {
-    font-style: italic;
-    font-size: .75em;
+.messages {
     margin-bottom: 20px;
 }
 
-#header-image {
-    width: 100%
+.out-message {
+    padding: 5px;
+    background-color: blueviolet;
+}
+
+.in-message {
+    padding: 5px;
+    background-color: plum;
 }
