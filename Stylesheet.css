@@ -1,18 +1,26 @@
-body{
-    max-width: 500px;
-    margin: 0 auto;
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: auto 30px;
+    color: #555;
 }
 
-.messages {
-    margin-bottom: 20px;
+ul {
+    /* border: solid 1px #555; */
+    margin: 0;
 }
 
-.out-message {
+li {
     padding: 5px;
-    background-color: blueviolet;
 }
 
-.in-message {
-    padding: 5px;
-    background-color: plum;
+#get-it-done-container {
+margin-top: 20px;
+}
+
+#completed-list {
+    list-style-type: none;
+}
+
+#completed-list li {
+    text-decoration: line-through;
 }

@@ -1,97 +1,68 @@
-// Array creation
-var messages = [];
+// Task Array
+var tasks = [];
 
-var messageType = {
-    out: 'out-message',
-    in: 'in-message',
-    unknown: 'unknown-message',
+//Variable Statuses
+var taskStatus = {
+    active: 'active',
+    completed: 'completed'
 };
 
-var data = [
-    {
-        type: messageType.out,
-        user: 'Imani',
-        message: 'Hello World!'
-    },
-    {
-        type: messageType.in,
-        user: 'Tytice',
-        message: "What does that mean?"
-    },
-    {
-        type: messageType.out,
-        user: "Imani",
-        message: 'We talked  about this! Tell me you have forgotten?'
-    },
-];
-
-// Constructor function creation
-function Message(type, user, message) {
-    this.type = type;
-    this.user = user;
-    this.message = message;
+// Constructor function created
+function Task (id, name, status) {
+    this.id = id;
+    this.name = name;
+    this.status = status;
 }
 
-function createMessageElement(message) {
-    var messageText = document.createTextNode(
-        message.user + ': ' + message.message
-    );
+function addTaskElement (task) {
+    
+    var listEL = document.getElementById('active-list');
+    var taskEL = document.createElement('li');
+    var textEL = document.createTextNode(task.name);
 
-    var messageEL = document.createElement('div');
-    messageEL.appendChild(messageText);
-    messageEL.className = message.type;
-
-    return messageEL;
+    
+    taskEL.setAttribute('id', task.id);
+    taskEL.appendChild(textEL);
+    listEL.appendChild(taskEL);
 }
 
-function addMessageHandler(event) {
-    var user, type;
-    var messageInput = document.getElementById('message-input');
-    var messageContainerEL = document.getElementById('message-container');
 
-    switch (event.target.id) {
-        case 'send-button':
-        user = 'Imani';
-        type = messageType.out;
-        break;
-        case 'reply-button':
-        user = 'Tytrice';
-        type = messageType.in;
-        break;
-        default:
-            user = 'unknown';
-            type = messageType.unknown;
-    }
-
-    if (messageInput.value != '') {
-        var message = new Message(type, user, messageInput.value);
-        messages.push(message);
-        var el = createMessageElement(message);
-        messageContainerEL.appendChild(el);
-        messageInput.value = '';
+function addTask (event) {
+    var inputEL = document.getElementById('input-task');
+    if (inputEL.value != '') {
+        var id = 'item-' + tasks.length;
+        var task = new Task(id, inputEL.value, taskStatus.active);
+        tasks.push(task);
+        addTaskElement(task);
+        inputEL.value = '';
     }
 }
 
-function loadSeedData() {
-    for (var i = 0; i < data.length; i++) {
-        var message = new Message(data[i].type, date[i].user, data[i].message);
-        messages.push(message);
+function completeTask (event) {
+    var taskEL = event.target;
+    var id = taskEL.id;
+
+    for (var i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === id) {
+            tasks[i].status = taskStatus.completed;
+            break;
+        }
     }
 
-    var messagesContainerEL = document.getElementById('message-container');
-
-    for(var i = 0; i < messages.length; i++) {
-        var message = messages[i];
-        var el = createMessageElement(message)
-        messagesContainerEL.appendChild(el);
-  }
+    taskEL.remove();
+    document.getElementById('completed-list').appendChild(taskEL);
 }
 
-var init = function() {
+function clickButton (event) {
+    if (event.keyCode === 13) {
+        document.getElementById('add-task').click();
+    }
+}
 
-    document.getElementById('send-button').onclick = addMessageHandler;
-    document.getElementById('reply-button').onclick = addMessageHandler;
-    loadSeedData();
-};
+function init () {
+    document.getElementById('add-task').onclick = addTask;
+    document.getElementById('active-list').onclick = completeTask;
+    document.getElementById('input-task').onkeypress = clickButton;
+}
 
 init();
