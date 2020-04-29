@@ -1,68 +1,54 @@
-// Task Array
-var tasks = [];
-
-//Variable Statuses
-var taskStatus = {
-    active: 'active',
-    completed: 'completed'
-};
-
-// Constructor function created
-function Task (id, name, status) {
-    this.id = id;
-    this.name = name;
-    this.status = status;
+// Utility functions
+function get(element) {
+    return document.getElementById(element);
 }
 
-function addTaskElement (task) {
-    
-    var listEL = document.getElementById('active-list');
-    var taskEL = document.createElement('li');
-    var textEL = document.createTextNode(task.name);
+// Aplication functions
+function openModal() {
+    var modal = get('modal-dialog');
+    var backdrop = get('modal-backdrop');
 
-    
-    taskEL.setAttribute('id', task.id);
-    taskEL.appendChild(textEL);
-    listEL.appendChild(taskEL);
+    modal.classList.add('visible');
+    backdrop.classList.add('visible');
 }
 
+function closeModal() {
+    var title = get('edit-title-text');
+    var text = get('edit-content-text');
+    var modal = get('modal-dialog');
+    var backdrop = get('modal-backdrop');
 
-function addTask (event) {
-    var inputEL = document.getElementById('input-task');
-    if (inputEL.value != '') {
-        var id = 'item-' + tasks.length;
-        var task = new Task(id, inputEL.value, taskStatus.active);
-        tasks.push(task);
-        addTaskElement(task);
-        inputEL.value = '';
-    }
+    title.value = '';
+    text.value = '';
+
+    modal.classList.remove('visible')
+    backdrop.classList.remove('visible');
 }
 
-function completeTask (event) {
-    var taskEL = event.target;
-    var id = taskEL.id;
+function saveContent() {
+    var title = get('edit-title-text');
+    var text = get('edit-content-text');
+    var content = get('display-content');
 
-    for (var i = 0; i < tasks.length; i++) {
-        if (tasks[i].id === id) {
-            tasks[i].status = taskStatus.completed;
-            break;
-        }
-    }
+    var newTitle = document.createElement('h2');
+    var newTitleText = document.createTextNode(title.value);
+    var newContent = document.createElement('p');
+    var newContentText = document.createTextNode(text.value);
 
-    taskEL.remove();
-    document.getElementById('completed-list').appendChild(taskEL);
+    newTitle.appendChild(newTitleText);
+    newContent.appendChild(newContentText);
+    content.appendChild(newTitle);
+    content.appendChild(newContent);
+
+    closeModal();
 }
 
-function clickButton (event) {
-    if (event.keyCode === 13) {
-        document.getElementById('add-task').click();
-    }
-}
+window.addEventListener('load', function() {
+    var newButton = get('new-button');
+    var cancelButton = get('cancel-button');
+    var saveButton = get('save-button');
 
-function init () {
-    document.getElementById('add-task').onclick = addTask;
-    document.getElementById('active-list').onclick = completeTask;
-    document.getElementById('input-task').onkeypress = clickButton;
-}
-
-init();
+    newButton.addEventListener('click', openModal);
+    cancelButton.addEventListener('click', closeModal);
+    saveButton.addEventListener('click', saveContent);
+});
