@@ -1,0 +1,33 @@
+{
+    "name": "itdev161-assignments",
+    "version": "1.0.0",
+    "description": "itdev161-assignments",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node -r esm server.js",
+        "server": "nodemon -r esm server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@gitlab.com:qaasimi/itdev161-assignments.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://gitlab.com/qaasimi/itdev161-assignments/-/issues"
+    },
+    "homepage": "https://gitlab.com/qaasimi/itdev161-assignments/-/blob/master/README.md",
+    "dependencies": {
+        "bcrypt": "5.0.0",
+        "config": "3.3.1",
+        "esm": "3.2.25",
+        "express": "4.17.1",
+        "express-validator": "6.6.1",
+        "mongoose": "5.10.5"
+    },
+    "devDependencies": {
+        "concurrently": "^5.3.0",
+        "nodemon": "^1.19.2"
+    }
+}

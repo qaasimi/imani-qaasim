@@ -1,0 +1,3 @@
+{
+    "mongoURI": "mongodb+srv://Imanite:<password>@cluster0.veetq.mongodb.net/<dbname>?retryWrites=true&w=majority"
+}
