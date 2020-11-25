@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://Imanite:Mr.Knuckles4Introverted@cluster0.veetq.mongodb.net/ITDEV161?retryWrites=true&w=majority",
+    "jwtSecret": "secretsafewithme"
+}
